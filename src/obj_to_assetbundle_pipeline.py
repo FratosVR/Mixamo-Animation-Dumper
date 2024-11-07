@@ -3,12 +3,18 @@ import subprocess
 
 
 class ObjToAssetbundleConversor:
-    __unity_editor_exe = "C:/Program Files/Unity/Hub/Editor/2022.3.45f1/Editor/Unity.exe"
-    __unity_project_path = os.path.join(
+
+    # Paths
+    self.__unity_editor_exe = "C:/Program Files/Unity/Hub/Editor/2022.3.45f1/Editor/Unity.exe"
+    self.__unity_project_path = os.path.join(
         os.getcwd(), "animations_to_csv_automatization")
-    __project_persistentDataPath = "C:/Users/alex_/AppData/LocalLow/FratosVR/obj_to_assetbundle_automatization"
-    __obj_folder_path = os.path.join(
+    self.__project_persistentDataPath = "C:/Users/alex_/AppData/LocalLow/FratosVR/obj_to_assetbundle_automatization"
+    self.__obj_folder_path = os.path.join(
         self.__project_persistentDataPath, "Assets/ObjFiles")
+
+    # Commands
+    self.exec_unity = [self.__unity_editor_exe, "-batchmode", "-quit", "-projectPath",
+                       self.__unity_project_path, "-executeMethod", "AssetBundleCreator.BuildAllAssetBundles"]
 
 
 # Paths (adjust if necessary)
