@@ -1,0 +1,3 @@
+# TestConverterPaths
+
+::: objtoassetbundleconverter.TestConverterPaths

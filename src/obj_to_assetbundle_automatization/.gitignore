@@ -72,4 +72,4 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 /[Aa]ssets/animations/*
 /[Aa]ssets/AssetBundles/*
-/[Aa]ssets/ObjFiles
+/[Aa]ssets/ObjFiles/*
