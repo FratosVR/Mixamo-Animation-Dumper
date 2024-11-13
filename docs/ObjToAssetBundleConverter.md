@@ -1,3 +1,0 @@
-# ObjToAssetBundleConverter
-
-::: objtoassetbundleconverter.ObjToAssetBundleConverter

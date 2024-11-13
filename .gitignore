@@ -8,7 +8,7 @@ __pycache__/
 
 # Distribution / packaging
 .Python
-build/
+# build/
 develop-eggs/
 dist/
 downloads/
@@ -163,3 +163,13 @@ cython_debug/
 kaggle.json
 src/dataset/*
 src/csv_pose_animations/*
+*/build/*
+!*/build/html/
+!*/build/html/*
+
+# Un-ignore the latex directory
+!*/build/latex/
+
+# Ignore everything inside /build/latex except .pdf files
+*/build/latex/*
+!*/build/latex/*.pdf

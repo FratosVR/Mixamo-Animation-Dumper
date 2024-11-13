@@ -76,6 +76,7 @@ class ObjToAssetBundleConverter:
 
     def run_unity_converter(self):
         """Run the Unity3D editor in terminal to convert the obj files to assetbundles
+
         Raises:
             subprocess.CalledProcessError: if the Unity3D editor fails to create the AssetBundles
         """
