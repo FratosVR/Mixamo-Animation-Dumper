@@ -12,7 +12,7 @@ public class Builder
             // Specify the scenes to be included in the build
             scenes = new[]
             {
-                "Assets/Scenes/SampleScene.unity",
+                Application.dataPath + "/Scenes/SampleScene.unity",
             },
             // Specify the output path for the build
             locationPathName = "../Build/WindowsBuild",
@@ -33,6 +33,7 @@ public class Builder
         }
     }
 
+    [MenuItem("Assets/BuildWindows")]
     // Entry point for the build process
     public static void Build()
     {
