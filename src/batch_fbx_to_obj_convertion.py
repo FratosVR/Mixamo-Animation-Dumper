@@ -21,7 +21,8 @@ def main():
         'alk222/raw-mixamo-animations', path='./dataset')
 
     converter = ObjToCSVConverter()
-    converter.copy_fbx_files(converter.fbx_folder_path())
+    print("Copying fbx files")
+    converter.copy_fbx_files("./dataset")
     converter.run_unity_converter()
 
 

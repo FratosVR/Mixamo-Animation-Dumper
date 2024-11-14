@@ -3,6 +3,7 @@ import subprocess
 import shutil
 from pathlib import Path
 import unittest
+import tqdm
 
 
 class ObjToCSVConverter:
@@ -27,8 +28,8 @@ class ObjToCSVConverter:
         """path to the folder where the obj files are stored"""
 
         # Command
-        self.__build_command = [self.__unity_editor_exe, "-batchmode", "-quit", "-nographics", "-projectPath",
-                                self.__unity_project_path, "-buildTarget", "StandaloneWindows64", "-executeMethod", "Builder.Build"]
+        self.__build_command = [self.__unity_editor_exe, "-projectPath",
+                                self.__unity_project_path, "-executeMethod", "PlayModeRunner.RunPlayMode"]
         """command to run the Unity3D editor in terminar to make the automatization"""
 
     def unity_editor_exe(self) -> str:
@@ -70,9 +71,8 @@ class ObjToCSVConverter:
         Args:
             input_folder (str): path to the folder where the obj files are stored
         """
-        for file in os.listdir(input_folder):
-            shutil.copy(os.path.join(input_folder, file),
-                        self.__project_dataPath)
+        shutil.copytree(input_folder, self.__fbx_folder_path,
+                        dirs_exist_ok=True)
 
     def run_unity_converter(self):
         """Run the Unity3D editor in terminal to convert the obj files to assetbundles

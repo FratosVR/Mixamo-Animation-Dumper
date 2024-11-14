@@ -2,7 +2,7 @@ using UnityEditor;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
 
-public class Builder
+public class CustomBuilder
 {
     private static void BuildStandaloneWindows64()
     {
