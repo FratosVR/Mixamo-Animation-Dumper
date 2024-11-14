@@ -1,20 +1,16 @@
-objtoassetbundleconverter
+objtocsvconverter
 =========================
 
-.. .. automodule:: objtoassetbundleconverter
-..    :members:
-..    :undoc-members:
-..    :show-inheritance:
 
 Classes
 -------
 
-.. autoclass:: objtoassetbundleconverter.ObjToAssetBundleConverter
+.. autoclass:: objtocsvconverter.ObjToCSVConverter
    :members:
    :undoc-members:
    :show-inheritance:
 
-.. autoclass:: objtoassetbundleconverter.TestConverterPaths
+.. autoclass:: objtocsvconverter.TestConverterPaths
    :members:
    :undoc-members:
    :show-inheritance:
