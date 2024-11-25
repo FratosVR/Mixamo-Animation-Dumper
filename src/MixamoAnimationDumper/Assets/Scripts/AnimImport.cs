@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Animations;
@@ -20,9 +21,12 @@ public class AnimImport : MonoBehaviour
     private int index;
     private float timer;
 
+    private const string resourcePath = "Assets/Resources/";
+
     // Start is called before the first frame update
     void Start()
     {
+        animacionMap = new Dictionary<string, List<AnimationClip>>();
         anim = GetComponent<Animator>();
         animatorOverrideController = new AnimatorOverrideController(anim.runtimeAnimatorController);
         anim.runtimeAnimatorController = animatorOverrideController;
@@ -37,19 +41,17 @@ public class AnimImport : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        timer += Time.deltaTime;
-        if(timer >= anim.GetCurrentAnimatorClipInfo(0)[0].clip.length)
-        {
-            timer = 0.0f;
-            //nextAnimation
-            setClip();
-        }
+        //timer += Time.deltaTime;
+        //if (timer >= anim.GetCurrentAnimatorClipInfo(0)[0].clip.length)
+        //{
+        //    timer = 0.0f;
+        //    //nextAnimation
+        //    setClip();
+        //}
     }
 
     private void setClip()
     {
-        anim.Play("Default", 0);
-
         KeyValuePair<string, List<AnimationClip>> val = animacionMap.ElementAt(index);
         indexAnim++;
         if(indexAnim == val.Value.Count)
@@ -58,55 +60,49 @@ public class AnimImport : MonoBehaviour
             val = animacionMap.ElementAt(index);
             indexAnim = 0;
         }
-        animatorOverrideController["mixamo.com"] = val.Value[indexAnim];
-
+        animatorOverrideController[val.Value[indexAnim].name] = val.Value[indexAnim];
+        anim.runtimeAnimatorController = animatorOverrideController;
         anim.Play("Default", 0);
     }
 
 
     private void loadClips()
     {
-        //AnimationClip[] anims = Resources.FindObjectsOfTypeAll<AnimationClip>();
         try
         {
             string[] dir = Directory.GetDirectories(path);
             foreach (string dirName in dir)
             {
-                string[] animsPath = Directory.GetFiles(path + "/" + dirName);
+                string[] animsPath = Directory.GetFiles(dirName);
+                string[] tmp = dirName.Split('\\');
+                animacionMap.Add(tmp[tmp.Length - 1], new List<AnimationClip>());
                 foreach (string animPath in animsPath)
                 {
-                    AnimationClip anim = Resources.Load<AnimationClip>(animPath);
-                    string[] tmp = dirName.Split('/');
-                    string tag = tmp[tmp.Length - 1];
-                    animacionMap[tag].Add(anim);
-                    
+                    //var asset = Resources.Load<GameObject>(animPath);
+                    //ModelImporterClipAnimation anim = asset.defaultClipAnimations[0];
+                    //AnimationClip anim = AnimationUtility.GetAnimationClips(asset)[0];
+                    //string[] tmp = dirName.Split('/');
+
+                    string[] tmp2 = animPath.Split('\\');
+                    string a = Path.Combine(resourcePath, tmp2[tmp2.Length - 2], tmp2[tmp2.Length - 1]);
+                    var allAsset = AssetDatabase.LoadAllAssetsAtPath(Path.Combine(resourcePath, tmp2[tmp2.Length - 2], tmp2[tmp2.Length - 1]));
+                    foreach (var asset in allAsset)
+                    {
+                        if (asset is AnimationClip && asset.name != "__preview__mixamo.com")
+                        {
+                            //Debug.Log(asset.name);
+                            string tag = tmp[tmp.Length - 1];
+                            animacionMap[tag].Add(asset as AnimationClip);
+                            break;
+                        }
+                    }
                 }
             }
         }
         catch (Exception e)
         {
-            Console.WriteLine($"Error: {e.Message}");
+            Debug.Log($"Error: {e.Message}");
         }
-        //string path = Application.persistentDataPath + "/dataset";
-        //try
-        //{
-        //    // Obtiene los archivos del directorio
-        //    string[] dir = Directory.GetDirectories(path); //C:/Users/pablo/AppData/LocalLow/DefaultCompany/MixamoAnimationDumper
-        //    foreach(string dirName in dir)
-        //    {
-        //        string[] anims = Directory.GetFiles(path + "/" + dirName);
-        //        foreach(string anim in anims)
-        //        {
-        //            AssetDatabase.ImportAsset(dirName + "/" + anim, ImportAssetOptions.Default); //No importa archivos externos->BuildPipeline.BuildAssetBundles, importador externo
-        //            AssetBundle.LoadFromFile(dirName + "/" + anim); //Carga un AssetBundle
-        //        }
-        //    }
-        //}
-        //catch (Exception e)
-        //{
-        //    Console.WriteLine($"Error: {e.Message}");
-        //}
-
     }
 }
 
