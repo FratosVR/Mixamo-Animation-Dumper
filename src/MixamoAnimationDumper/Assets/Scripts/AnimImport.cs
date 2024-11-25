@@ -41,13 +41,13 @@ public class AnimImport : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //timer += Time.deltaTime;
-        //if (timer >= anim.GetCurrentAnimatorClipInfo(0)[0].clip.length)
-        //{
-        //    timer = 0.0f;
-        //    //nextAnimation
-        //    setClip();
-        //}
+        timer += Time.deltaTime;
+        if (timer >= anim.GetCurrentAnimatorClipInfo(0)[0].clip.length)
+        {
+            timer = 0.0f;
+            //nextAnimation
+            setClip();
+        }
     }
 
     private void setClip()
@@ -62,7 +62,7 @@ public class AnimImport : MonoBehaviour
         }
         animatorOverrideController[val.Value[indexAnim].name] = val.Value[indexAnim];
         anim.runtimeAnimatorController = animatorOverrideController;
-        anim.Play("Default", 0);
+        anim.Play("Default", 0, 0f);
     }
 
 
