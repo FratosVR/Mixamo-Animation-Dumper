@@ -13,6 +13,9 @@ public class AnimImport : MonoBehaviour
 {
     private Animator anim;
     private string path;
+    private string header;
+    private string csv_path;
+    private StreamWriter csv_file;
 
     private Dictionary<string, List<AnimationClip>> animacionMap;
     protected AnimatorOverrideController animatorOverrideController;
@@ -22,6 +25,9 @@ public class AnimImport : MonoBehaviour
     private float timer;
 
     private const string resourcePath = "Assets/Resources/";
+
+    [SerializeField]
+    private List<Transform> _bones;
 
     // Start is called before the first frame update
     void Start()
@@ -34,6 +40,8 @@ public class AnimImport : MonoBehaviour
         indexAnim = -1;
         timer = 0.0f;
         path = Application.dataPath + "/Resources";
+        Directory.CreateDirectory(Path.Combine(Application.dataPath, "CSV"));
+        header = createHeader();
         loadClips();
         setClip();
     }
@@ -42,11 +50,18 @@ public class AnimImport : MonoBehaviour
     void Update()
     {
         timer += Time.deltaTime;
+        foreach(Transform t in _bones)
+        {
+            csv_file.Write(t.position.x + "," + t.position.y + "," + t.position.z + "," + t.rotation.eulerAngles.x + "," + t.rotation.eulerAngles.y + "," + t.rotation.eulerAngles.z);
+        }
+        csv_file.Write("\n");
+
+
         if (timer >= anim.GetCurrentAnimatorClipInfo(0)[0].clip.length)
         {
             timer = 0.0f;
-            //nextAnimation
-            setClip();
+            csv_file.Close();
+            setClip(); //nextAnimation
         }
     }
 
@@ -56,10 +71,16 @@ public class AnimImport : MonoBehaviour
         indexAnim++;
         if(indexAnim == val.Value.Count)
         {
-            index = (index + 1) % animacionMap.Count;
+            index = index++;
+            if(index == animacionMap.Count)
+                EditorApplication.Exit(0);
             val = animacionMap.ElementAt(index);
             indexAnim = 0;
         }
+        csv_path = Path.Combine(Application.dataPath, "CSV", val.Key.ToLower() + "_" + indexAnim.ToString() + ".csv");
+        csv_file = new StreamWriter(csv_path, false);
+        csv_file.WriteLine(header);
+
         animatorOverrideController[val.Value[indexAnim].name] = val.Value[indexAnim];
         anim.runtimeAnimatorController = animatorOverrideController;
         anim.Play("Default", 0, 0f);
@@ -104,5 +125,26 @@ public class AnimImport : MonoBehaviour
             Debug.Log($"Error: {e.Message}");
         }
     }
-}
 
+    private string createHeader()
+    {
+        string s = "";
+        string[] coordinates = { "x", "y", "z" }; 
+
+        foreach(Transform bone in _bones)
+        {
+            foreach(string coordinate in coordinates)
+            {
+                s += bone.name + "_pos" + coordinate + ",";
+            }
+            foreach (string coordinate in coordinates)
+            {
+                s += bone.name + "_rot" + coordinate + ",";
+            }
+        }
+
+        s = s.Remove(s.Length - 1);
+
+        return s;
+    }
+}
