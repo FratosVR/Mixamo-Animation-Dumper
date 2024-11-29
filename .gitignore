@@ -173,3 +173,5 @@ src/csv_pose_animations/*
 # Ignore everything inside /build/latex except .pdf files
 */build/latex/*
 !*/build/latex/*.pdf
+/src/csv_dataset/*
+/src/MixamoAnimationDumper/CSV/*

@@ -15,18 +15,19 @@ class ObjToCSVConverter:
         """
         # Paths
 
-        self.__unity_editor_exe: str = "C:/Program Files/Unity/Hub/Editor/2022.3.45f1/Editor/Unity.exe"
         """path to the Unity3D editor executable"""
+        self.__unity_editor_exe: str = "C:/Program Files/Unity/Hub/Editor/2022.3.45f1/Editor/Unity.exe"
+        """path to the Unity3D project"""
         self.__unity_project_path: str = os.path.join(
             os.getcwd(), "MixamoAnimationDumper")
-        """path to the Unity3D project"""
+        """path to the Unity3D project persistent data path"""
         self.__project_dataPath: str = os.path.join(
             self.__unity_project_path, "Assets")
-        """path to the Unity3D project persistent data path"""
+        """path to the folder where the obj files are stored"""
         self.__fbx_folder_path = os.path.join(
             self.__project_dataPath, "Resources")
-        """path to the folder where the obj files are stored"""
-
+        """path to the folder where the CSV files are stored"""
+        self.__csv_folder_path = os.path.join(self.__project_dataPath, "CSV")
         # Command
         self.__build_command = [self.__unity_editor_exe, "-projectPath",
                                 self.__unity_project_path, "-executeMethod", "PlayModeRunner.RunPlayMode"]
@@ -65,6 +66,14 @@ class ObjToCSVConverter:
 
         return self.__fbx_folder_path
 
+    def csv_folder_path(self) -> str:
+        """Returns the path to the folder where the CSV files are stored
+
+        Returns:
+            str: path to the folder where the CSV files are stored
+        """
+        return self.__csv_folder_path
+
     def copy_fbx_files(self, input_folder: str) -> None:
         """Copy the obj files from the input folder to the Unity3D project folder
 
@@ -82,7 +91,6 @@ class ObjToCSVConverter:
         """
         try:
             subprocess.run(self.__build_command, check=True)
-            print("Build completed successfully!")
         except subprocess.CalledProcessError as e:
             print(f"Failed to create AssetBundles: {e}")
 
@@ -114,6 +122,11 @@ class TestConverterPaths(unittest.TestCase):
         """Test the fbx folder path
         """
         self.assertTrue(os.path.exists(self.converter.fbx_folder_path()))
+
+    def test_csv_folder_path(self):
+        """Test the csv folder path
+        """
+        self.assertTrue(os.path.exists(self.converter.csv_folder_path()))
 
 
 if __name__ == "__main__":
