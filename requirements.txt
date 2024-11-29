@@ -1,0 +1,4 @@
+kaggle==1.6.17
+tqdm==4.66.5
+sphinx==3.5.4
+sphinx-rtd-theme==0.5.2
