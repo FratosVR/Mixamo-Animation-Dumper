@@ -1,7 +1,7 @@
 MixamoAnimationDumper documentation
 ===================================
 
-Tools to parse Mixamo fbx to csv for machine learning using unity and blender
+Tools to parse Mixamo fbx to csv for machine learning using unity
 
 
 .. toctree::
