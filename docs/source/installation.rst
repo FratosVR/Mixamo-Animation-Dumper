@@ -8,7 +8,7 @@ For development you will need the next packages:
  - kaggle
  - bpy
 
-And you will need to install unity. 
+And you will need to install unity.
 
 Documentation
 -------------

@@ -50,11 +50,13 @@ public class AnimImport : MonoBehaviour
     void Update()
     {
         timer += Time.deltaTime;
-        foreach(Transform t in _bones)
+        string data = "";
+        foreach (Transform t in _bones)
         {
-            csv_file.Write(t.position.x + "," + t.position.y + "," + t.position.z + "," + t.rotation.eulerAngles.x + "," + t.rotation.eulerAngles.y + "," + t.rotation.eulerAngles.z);
+            data += t.position.x + "," + t.position.y + "," + t.position.z + "," + t.rotation.eulerAngles.x + "," + t.rotation.eulerAngles.y + "," + t.rotation.eulerAngles.z + ",";
         }
-        csv_file.Write("\n");
+        data = data.Remove(data.Length - 1);
+        csv_file.Write(data + "\n");
 
 
         if (timer >= anim.GetCurrentAnimatorClipInfo(0)[0].clip.length)
@@ -69,10 +71,10 @@ public class AnimImport : MonoBehaviour
     {
         KeyValuePair<string, List<AnimationClip>> val = animacionMap.ElementAt(index);
         indexAnim++;
-        if(indexAnim == val.Value.Count)
+        if (indexAnim == val.Value.Count)
         {
-            index = index++;
-            if(index == animacionMap.Count)
+            index++;
+            if (index == animacionMap.Count)
                 EditorApplication.Exit(0);
             val = animacionMap.ElementAt(index);
             indexAnim = 0;
@@ -80,7 +82,7 @@ public class AnimImport : MonoBehaviour
         csv_path = Path.Combine(Application.dataPath, "CSV", val.Key.ToLower() + "_" + indexAnim.ToString() + ".csv");
         csv_file = new StreamWriter(csv_path, false);
         csv_file.WriteLine(header);
-
+        Debug.Log(csv_path);
         animatorOverrideController[val.Value[indexAnim].name] = val.Value[indexAnim];
         anim.runtimeAnimatorController = animatorOverrideController;
         anim.Play("Default", 0, 0f);
@@ -99,10 +101,6 @@ public class AnimImport : MonoBehaviour
                 animacionMap.Add(tmp[tmp.Length - 1], new List<AnimationClip>());
                 foreach (string animPath in animsPath)
                 {
-                    //var asset = Resources.Load<GameObject>(animPath);
-                    //ModelImporterClipAnimation anim = asset.defaultClipAnimations[0];
-                    //AnimationClip anim = AnimationUtility.GetAnimationClips(asset)[0];
-                    //string[] tmp = dirName.Split('/');
 
                     string[] tmp2 = animPath.Split('\\');
                     string a = Path.Combine(resourcePath, tmp2[tmp2.Length - 2], tmp2[tmp2.Length - 1]);
@@ -129,11 +127,11 @@ public class AnimImport : MonoBehaviour
     private string createHeader()
     {
         string s = "";
-        string[] coordinates = { "x", "y", "z" }; 
+        string[] coordinates = { "x", "y", "z" };
 
-        foreach(Transform bone in _bones)
+        foreach (Transform bone in _bones)
         {
-            foreach(string coordinate in coordinates)
+            foreach (string coordinate in coordinates)
             {
                 s += bone.name + "_pos" + coordinate + ",";
             }
