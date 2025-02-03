@@ -8,6 +8,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Playables;
+using System.Globalization;
 
 public class AnimImport : MonoBehaviour
 {
@@ -32,6 +33,7 @@ public class AnimImport : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        NumberFormatInfo nfi = new CultureInfo("en-US", false).NumberFormat;
         animacionMap = new Dictionary<string, List<AnimationClip>>();
         anim = GetComponent<Animator>();
         animatorOverrideController = new AnimatorOverrideController(anim.runtimeAnimatorController);
