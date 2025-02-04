@@ -175,3 +175,5 @@ src/csv_pose_animations/*
 !*/build/latex/*.pdf
 /src/csv_dataset/*
 /src/MixamoAnimationDumper/CSV/*
+
+*.csv

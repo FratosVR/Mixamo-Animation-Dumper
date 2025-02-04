@@ -29,11 +29,13 @@ public class AnimImport : MonoBehaviour
 
     [SerializeField]
     private List<Transform> _bones;
+    private NumberFormatInfo nfi;
 
     // Start is called before the first frame update
     void Start()
     {
-        NumberFormatInfo nfi = new CultureInfo("en-US", false).NumberFormat;
+        nfi = new NumberFormatInfo();
+        nfi.NumberDecimalSeparator = ".";
         animacionMap = new Dictionary<string, List<AnimationClip>>();
         anim = GetComponent<Animator>();
         animatorOverrideController = new AnimatorOverrideController(anim.runtimeAnimatorController);
@@ -55,7 +57,7 @@ public class AnimImport : MonoBehaviour
         string data = "";
         foreach (Transform t in _bones)
         {
-            data += t.position.x + "," + t.position.y + "," + t.position.z + "," + t.rotation.eulerAngles.x + "," + t.rotation.eulerAngles.y + "," + t.rotation.eulerAngles.z + ",";
+            data += t.position.x.ToString(nfi) + "," + t.position.y.ToString(nfi) + "," + t.position.z.ToString(nfi) + "," + t.rotation.eulerAngles.x.ToString(nfi) + "," + t.rotation.eulerAngles.y.ToString(nfi) + "," + t.rotation.eulerAngles.z.ToString(nfi) + ",";
         }
         data = data.Remove(data.Length - 1);
         csv_file.Write(data + "\n");
