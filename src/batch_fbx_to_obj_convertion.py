@@ -34,16 +34,16 @@ def main():
         'alk222/raw-mixamo-animations', path='./dataset')
 
     converter = ObjToCSVConverter()
-    # print("Copying fbx files")
-    # converter.copy_fbx_files("./dataset")
-    # print("Running Unity converter")
-    # converter.run_unity_converter()
-    # print("Finished conversion")
-    # print("Downloading latest version of csv dataset")
-    # api.dataset_download_cli('alk222/csv-pose-animations',
-    #                          path='./csv_dataset', unzip=True)
-    # metadata = kaggle.api.dataset_metadata(
-    #     'alk222/csv-pose-animations', path='./csv_dataset')
+    print("Copying fbx files")
+    converter.copy_fbx_files("./dataset")
+    print("Running Unity converter")
+    converter.run_unity_converter()
+    print("Finished conversion")
+    print("Downloading latest version of csv dataset")
+    api.dataset_download_cli('alk222/csv-pose-animations',
+                             path='./csv_dataset', unzip=True)
+    metadata = kaggle.api.dataset_metadata(
+        'alk222/csv-pose-animations', path='./csv_dataset')
     print("Updating csv dataset")
     copy_csv_files(converter.csv_folder_path(), "./csv_dataset")
     print("Uploading csv dataset")
