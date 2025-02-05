@@ -10,6 +10,8 @@ public class MocapDumper : MonoBehaviour
     [SerializeField]
     public int _numUser;
     [SerializeField]
+    public int _numTake;
+    [SerializeField]
     private string _animationString;
     [SerializeField]
     private List<Transform> _bones;
@@ -23,7 +25,7 @@ public class MocapDumper : MonoBehaviour
         nfi = new CultureInfo("en-US", false).NumberFormat;
         nfi.NumberDecimalSeparator= ".";
         _recordMode = false;
-        csv_path = Path.Combine(Application.dataPath, "CSV", _animationString.ToLower() + "_User" + _numUser.ToString() + ".csv");
+        csv_path = Path.Combine(Application.dataPath, "CSV", _animationString.ToLower() + "_User_" + _numUser.ToString() + "_Take_" +_numTake + ".csv");
     }
 
     // Update is called once per frame
@@ -31,8 +33,11 @@ public class MocapDumper : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.Space)) {
             _recordMode = !_recordMode;
-            if(_recordMode)
+            if (_recordMode)
+            {
                 csv_file = new StreamWriter(csv_path, false);
+                csv_file.WriteLine(createHeader());
+            }
             else
             {
                 csv_file.Close();
@@ -49,5 +54,27 @@ public class MocapDumper : MonoBehaviour
             data = data.Remove(data.Length - 1);
             csv_file.Write(data + "\n");
         }
+    }
+
+    private string createHeader()
+    {
+        string s = "";
+        string[] coordinates = { "x", "y", "z" };
+
+        foreach (Transform bone in _bones)
+        {
+            foreach (string coordinate in coordinates)
+            {
+                s += bone.name + "_pos" + coordinate + ",";
+            }
+            foreach (string coordinate in coordinates)
+            {
+                s += bone.name + "_rot" + coordinate + ",";
+            }
+        }
+
+        s = s.Remove(s.Length - 1);
+
+        return s;
     }
 }
