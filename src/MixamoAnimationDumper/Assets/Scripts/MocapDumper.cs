@@ -33,6 +33,11 @@ public class MocapDumper : MonoBehaviour
             _recordMode = !_recordMode;
             if(_recordMode)
                 csv_file = new StreamWriter(csv_path, false);
+            else
+            {
+                csv_file.Close();
+            }
+
         }
         if (_recordMode)
         {
