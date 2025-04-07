@@ -556,8 +556,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67c5cc0c1766a6d4a9e4c54799559848, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _numUser: 0
-  _animationString: prueba
+  _numUser: 16
+  _numTake: 2
+  _animationString: run
   _bones:
   - {fileID: 1746607448}
   - {fileID: 1746607447}
