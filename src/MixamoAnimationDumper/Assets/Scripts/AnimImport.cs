@@ -10,6 +10,9 @@ using UnityEngine.Animations;
 using UnityEngine.Playables;
 using System.Globalization;
 
+/// <summary>
+/// Component that importss and executes all the animations, and creates the CSVs of them.
+/// </summary>
 public class AnimImport : MonoBehaviour
 {
     private Animator anim;
@@ -71,6 +74,9 @@ public class AnimImport : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Sets the animation clip that will be executed.
+    /// </summary>
     private void setClip()
     {
         KeyValuePair<string, List<AnimationClip>> val = animacionMap.ElementAt(index);
@@ -92,7 +98,9 @@ public class AnimImport : MonoBehaviour
         anim.Play("Default", 0, 0f);
     }
 
-
+    /// <summary>
+    /// Loads all the animation clips from the "Resources" directory. Each animation must be in a directory with the same name as the type of gesture.
+    /// </summary>
     private void loadClips()
     {
         try
@@ -128,6 +136,10 @@ public class AnimImport : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Creates the CSV header.
+    /// </summary>
+    /// <returns>CSV header.</returns>
     private string createHeader()
     {
         string s = "";

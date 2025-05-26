@@ -4,13 +4,25 @@ using System.Globalization;
 using System.IO;
 using UnityEngine;
 
+/// <summary>
+/// Component that storage the animation of a mocap suit in a CSV.
+/// </summary>
 public class MocapDumper : MonoBehaviour
 {
     private bool _recordMode;
+    /// <summary>
+    /// User number
+    /// </summary>
     [SerializeField]
     public int _numUser;
+    /// <summary>
+    /// Number of the take of the animation.
+    /// </summary>
     [SerializeField]
     public int _numTake;
+    /// <summary>
+    /// Type of gesture.
+    /// </summary>
     [SerializeField]
     private string _animationString;
     [SerializeField]
@@ -19,6 +31,7 @@ public class MocapDumper : MonoBehaviour
     private string csv_path;
     // Format settings for numbers
     NumberFormatInfo nfi;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -56,6 +69,10 @@ public class MocapDumper : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Creates the CSV header.
+    /// </summary>
+    /// <returns>CSV header.</returns>
     private string createHeader()
     {
         string s = "";

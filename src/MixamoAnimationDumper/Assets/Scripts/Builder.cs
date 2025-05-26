@@ -2,8 +2,14 @@ using UnityEditor;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
 
+/// <summary>
+/// Class in order to make the build.
+/// </summary>
 public class CustomBuilder
 {
+    /// <summary>
+    /// Initiate the Windows 64-bit build.
+    /// </summary>
     private static void BuildStandaloneWindows64()
     {
         // Setup build options (e.g., scenes, build output location)
@@ -33,8 +39,10 @@ public class CustomBuilder
         }
     }
 
+    /// <summary>
+    /// Entry point for the build process.
+    /// </summary>
     [MenuItem("Assets/BuildWindows")]
-    // Entry point for the build process
     public static void Build()
     {
         // Initiate the Windows 64-bit build
