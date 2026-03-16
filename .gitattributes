@@ -1,1 +1,3 @@
 /docs/* linguist-vendored
+/src/MixamoAnimationDumper/Assets/Noitom/** linguist-vendored
+/src/MixamoAnimationDumper/Assets/Meshes/** linguist-vendored
